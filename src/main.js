@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 
-const nameList = fs.readFileSync(`${__dirname}/names.txt`).toString().split(' ');
+const nameList = fs.readFileSync(`${__dirname}/names.txt`).toString().split('\n');
 
 async function check(username) {
 		headers = {
@@ -31,7 +31,8 @@ async function check(username) {
 			}
 		}).catch(function(err) {
 			if (err.response.status == 404) {
-				return console.log('untaken name')
+				console.log('untaken name')
+				return fs.appendFileSync(`${__dirname}/availableNames.txt`, `${username}\n`)
 			}
 			console.log('error | ' + err.message + err.response.status);
 		});
